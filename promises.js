@@ -80,20 +80,62 @@ const tryRandomPromise = (random) =>
   });
 
 // console.log(tryRandomPromise(0));
-for (let i = 0; i < 10; i++) {
-  const random = Math.random();
-  wait(2000 + random * 1000)
-    .then(() => tryRandomPromise(random))
-    .then((result) => console.log("random try #", i, random, result))
-    .catch(error => console.error('random try #', i, random, error));
-}
-
-
+// for (let i = 0; i < 10; i++) {
+//   const random = Math.random();
+//   wait(2000 + random * 1000)
+//     .then(() => tryRandomPromise(random))
+//     .then((result) => console.log("random try #", i, random, result))
+//     .catch((error) => console.error("random try #", i, random, error));
+// }
 
 /* ============================== Phase 7 ============================== */
 /* ---------------- exploring async/await and try/catch ---------------- */
 
 // Your code here
+async function tryAwaitCatch() {
+//   new Promise((resolve, reject) => {
+//     if (random > 0.5) {
+//       resolve("success!!!");
+//     } else {
+//       reject("random error");
+//     }
+//   });
+  const random = Math.random();
+
+  await wait(2000 + random * 1000);
+  try {
+    // const result = await
+    console.log(await tryRandomPromise(random));
+  } catch {
+    console.log('error');
+  }
+}
+
+// for (let i = 0; i < 10; i++) {
+//     tryAwaitCatch();
+// }
+
+//---//
+
+const tryTryAgain = async (i) => {
+    const random = Math.random();
+
+    // no need for try-catch if there's no possibility of error (rarely happens)
+    await wait(3000 + random * 1000);
+
+    // usually you need to wrap the await to gracefully handle the error
+    try {
+        const result = await tryRandomPromise(random);
+        console.log('random again #', i, result);
+    } catch (error) {
+        console.error('random again #', i, error);
+    }
+};
+
+
+for (let i = 1; i < 10; i++) {
+    tryTryAgain(i);
+}
 
 /* ============================== Phase 8 ============================== */
 /* -------------------- Promises are asynchronous! --------------------- */
